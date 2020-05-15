@@ -1,0 +1,399 @@
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `Classic_Pay_Model`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `addressId` int(6) NOT NULL,
+  `addressline1` varchar(50) NOT NULL,
+  `addressline2` varchar(50) DEFAULT NULL,
+  `addressline3` varchar(50) DEFAULT NULL,
+  `addressLine4` varchar(50) DEFAULT NULL,
+  `city` varchar(50) NOT NULL,
+  `province` varchar(50) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `postalCode` varchar(15) NOT NULL,
+  `customerNumber` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`addressId`, `addressline1`, `addressline2`, `addressline3`, `addressLine4`, `city`, `province`, `country`, `postalCode`, `customerNumber`) VALUES
+(1, '10100 Big St', '', '', NULL, 'Edmonton', 'Alberta', 'Canada', 'T6K8R4', 10001),
+(2, '786501 George St SE', '', '', NULL, 'Calgary', 'Alberta', 'Canada', 'T8A3D7', 10002);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `customerNumber` int(4) NOT NULL,
+  `clientName` varchar(50) NOT NULL,
+  `contactFirstName` varchar(50) NOT NULL,
+  `contactLastName` varchar(50) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `addressline1` varchar(50) DEFAULT NULL,
+  `addressline2` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `province` varchar(50) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `postalCode` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`customerNumber`, `clientName`, `contactFirstName`, `contactLastName`, `phone`, `email`, `addressline1`, `addressline2`, `city`, `province`, `country`, `postalCode`) VALUES
+(10001, 'windy river soap', 'Angie', 'Tripple', '780-998-9998', 'angie@wrs.ca', '10100 Big St', '', 'Edmonton', 'Alberta', 'Canada', 'T6K8R4'),
+(10002, 'JustNutritives', 'Gerry', 'Cole', '403-987-4545', 'gcole@justnutritive.ca', '786501 George St SE', '', 'Calgary', 'Alberta', 'Canada', 'T8A3D7'),
+(10021, 'Trader Joes', 'Joe', 'Bloggs', '780-965-3814', 'jbloggs@bb.ca', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `employeeNumber` int(6) NOT NULL,
+  `lastName` varchar(100) NOT NULL,
+  `firstName` varchar(100) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `reportsTo` int(6) NOT NULL,
+  `employeeRole` varchar(50) NOT NULL,
+  `storeCode` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`employeeNumber`, `lastName`, `firstName`, `phone`, `email`, `reportsTo`, `employeeRole`, `storeCode`) VALUES
+(1, 'Becker', 'John', '780-999-9999', 'j.becker@classicpaymodel.ca', 1, 'Sales', 1),
+(6, 'lastName', 'firstName', '780-988-7762', 'anewemail@bwm.com', 1, 'sales', 1),
+(7, 'lastName', 'firstName', '780-988-7762', 'anewemail@bwm.com', 1, 'sales', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderdetails`
+--
+
+CREATE TABLE `orderdetails` (
+  `orderLineNumber` int(6) NOT NULL,
+  `orderNumber` int(6) NOT NULL,
+  `productCode` int(6) NOT NULL,
+  `quantityOrdered` int(11) NOT NULL,
+  `pricePerItem` decimal(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orderdetails`
+--
+
+INSERT INTO `orderdetails` (`orderLineNumber`, `orderNumber`, `productCode`, `quantityOrdered`, `pricePerItem`) VALUES
+(1, 1, 4, 1, '25'),
+(2, 1, 1, 3, '7');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `orderNumber` int(6) NOT NULL,
+  `orderDate` datetime NOT NULL,
+  `requiredDate` datetime NOT NULL,
+  `shippedDate` datetime NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `customerNumber` int(15) NOT NULL,
+  `comments` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`orderNumber`, `orderDate`, `requiredDate`, `shippedDate`, `status`, `customerNumber`, `comments`) VALUES
+(1, '2020-05-13 21:08:03', '2020-05-20 21:08:03', '2020-05-27 21:08:03', 'shipped', 10001, 'thanks'),
+(3, '2020-05-14 20:18:34', '2020-05-30 00:00:00', '2020-06-10 00:00:00', 'ordered', 10002, ' thanks '),
+(4, '2020-05-14 20:21:20', '2020-05-30 00:00:00', '2020-06-10 00:00:00', 'ordered', 10002, ' thanks '),
+(5, '2020-05-14 20:21:35', '2020-05-30 00:00:00', '2020-06-10 00:00:00', 'ordered', 10002, ' thanks '),
+(6, '2020-05-14 20:29:07', '2020-05-30 00:00:00', '2020-06-10 00:00:00', 'ordered', 10002, ' thanks '),
+(7, '2020-05-15 16:30:03', '2020-05-30 00:00:00', '2020-06-10 00:00:00', 'ordered', 10002, ' thanks ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paymentcards`
+--
+
+CREATE TABLE `paymentcards` (
+  `cardIndex` int(6) NOT NULL,
+  `ccNameOnCard` varchar(75) NOT NULL,
+  `ccNumber` varchar(16) NOT NULL,
+  `ccType` varchar(50) NOT NULL,
+  `ccSecurity` varchar(3) NOT NULL,
+  `ccExpireDate` varchar(4) NOT NULL,
+  `customerNumber` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `paymentcards`
+--
+
+INSERT INTO `paymentcards` (`cardIndex`, `ccNameOnCard`, `ccNumber`, `ccType`, `ccSecurity`, `ccExpireDate`, `customerNumber`) VALUES
+(1, 'Mr.John Magger', '1234564334567698', 'MASTERCARD', '098', '0714', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(6) NOT NULL,
+  `amount` decimal(10,0) NOT NULL,
+  `paymentDate` date NOT NULL,
+  `customerNumber` int(6) NOT NULL,
+  `checkNumber` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `amount`, `paymentDate`, `customerNumber`, `checkNumber`) VALUES
+(1, '25', '2020-12-30', 10001, '6543 5433 6510');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paymentspk`
+--
+
+CREATE TABLE `paymentspk` (
+  `customerNumber` int(11) NOT NULL,
+  `chequeNumber` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productlines`
+--
+
+CREATE TABLE `productlines` (
+  `productLinePk` int(6) NOT NULL,
+  `productLine` varchar(50) NOT NULL,
+  `textDescription` varchar(255) NOT NULL,
+  `htmlDescription` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `productlines`
+--
+
+INSERT INTO `productlines` (`productLinePk`, `productLine`, `textDescription`, `htmlDescription`) VALUES
+(1, 'Pink Basics', 'Everyone who loves pink wants lushious adornment with personal skin care touch of pink from hand soaps to creams and serums.', '<div class=\"pink\"><p>Everyone who loves pink wants lushious adornment with personal skin care touch of pink from hand soaps to creams and serums.</p></div>'),
+(2, 'The Basics', 'Something regular average Joe always needs this series of personal products from hand soaps to creams or facial serums, this line has you covered', '<div class=\"basics\"><p>Something regular average Joe always needs this series of personal products from hand soaps to creams or facial serums, this line has you covered.</p></div>'),
+(3, 'Bath', 'Find everything you want in your next tub experience with this line of products ranging in Minerals and salts, sugar scrubs, bath bombs,  bubble bath and tea soaks and after bath oils. ', '<div class=\"bath\"><p>Find everything you want in your next tub experience with this line of products ranging in Minerals and salts, sugar scrubs, bath bombs,  bubble bath and tea soaks and after bath oils.</p></div>'),
+(4, 'Beautiful O Skin', 'This little line of victory contains all things organic and supports skin cell processes with the best of nutrients to support daily stresses and provide that little extra boost of quality that skin needs. ', '<div class=\"beautyo\"><p>This little line of victory contains all things organic and supports skin cell processes with the best of nutrients to support daily stresses and provide that little extra boost of quality that skin needs. </p></div>');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `productCode` int(6) NOT NULL,
+  `productName` varchar(100) NOT NULL,
+  `productScale` varchar(50) NOT NULL,
+  `productVendor` varchar(50) NOT NULL,
+  `productDescription` varchar(255) NOT NULL,
+  `quantityInStock` int(15) NOT NULL,
+  `buyPrice` decimal(10,0) NOT NULL,
+  `msrp` decimal(10,0) NOT NULL,
+  `productLineFK` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`productCode`, `productName`, `productScale`, `productVendor`, `productDescription`, `quantityInStock`, `buyPrice`, `msrp`, `productLineFK`) VALUES
+(1, 'Coconut Milk Soap', '', 'inhouse', 'luxury silky coconut milk coconut oil soap', 15, '2', '4', 2),
+(2, 'Hemp Seed Soap', '', 'inhouse', 'hemp seed oil Soap ', 20, '3', '5', 1),
+(4, 'Cherry Seed Serum', 'unknown', 'Bob Mills', 'Cherry Seed treats the skin with a little extra', 15, '6', '15', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stores`
+--
+
+CREATE TABLE `stores` (
+  `storeCode` int(5) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `addressLine1` varchar(50) NOT NULL,
+  `province` varchar(50) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `postalCode` varchar(15) NOT NULL,
+  `addressLine2` varchar(50) NOT NULL,
+  `territory` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `stores`
+--
+
+INSERT INTO `stores` (`storeCode`, `city`, `phone`, `addressLine1`, `province`, `country`, `postalCode`, `addressLine2`, `territory`) VALUES
+(1, 'Edmonton', '780-999-9999', '10100 Jasper Ave', 'Alberta', 'Canada', 'T4T5J8', '', 'ABED01'),
+(2, 'Calgary', '403-999-9999', '100 Main St NW', 'Alberta', 'Canada', 'T3K7D8', '', 'ABCA01');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`addressId`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`customerNumber`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD PRIMARY KEY (`employeeNumber`);
+
+--
+-- Indexes for table `orderdetails`
+--
+ALTER TABLE `orderdetails`
+  ADD PRIMARY KEY (`orderLineNumber`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`orderNumber`);
+
+--
+-- Indexes for table `paymentcards`
+--
+ALTER TABLE `paymentcards`
+  ADD PRIMARY KEY (`cardIndex`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `productlines`
+--
+ALTER TABLE `productlines`
+  ADD PRIMARY KEY (`productLinePk`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`productCode`);
+
+--
+-- Indexes for table `stores`
+--
+ALTER TABLE `stores`
+  ADD PRIMARY KEY (`storeCode`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `addressId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `customerNumber` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10069;
+
+--
+-- AUTO_INCREMENT for table `employees`
+--
+ALTER TABLE `employees`
+  MODIFY `employeeNumber` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `orderdetails`
+--
+ALTER TABLE `orderdetails`
+  MODIFY `orderLineNumber` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `orderNumber` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `paymentcards`
+--
+ALTER TABLE `paymentcards`
+  MODIFY `cardIndex` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `productlines`
+--
+ALTER TABLE `productlines`
+  MODIFY `productLinePk` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `productCode` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `stores`
+--
+ALTER TABLE `stores`
+  MODIFY `storeCode` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
