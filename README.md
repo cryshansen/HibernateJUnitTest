@@ -1,5 +1,5 @@
 # HibernateJUnitTest
-PayModel of entity dao junit tests with spring framework 
+PayModel of entity dao junit tests with spring framework implements the mysql database jdbc connection. 
 
 Using the basis of classic pay models in development, this project tests the code of the entity and database object linkage with 
 regular CRUD requirements.
